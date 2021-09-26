@@ -24,7 +24,7 @@ app.post("/account", (request, response) => {
     // Adicionando os dados da conta na array
     customers.push({
         cpf,
-        name,
+        name,      
         id: uuidv4(),
         statement: []
     });
@@ -34,4 +34,15 @@ app.post("/account", (request, response) => {
 
 });
 
+/* Buscando informações sobre o extrato bancário do cliente */
+app.get("/statement/:cpf", (request, response) => {
+    const {cpf} = request.params // Pegando o cpf pelo routers params
+
+    const customer = customers.find( 
+        (customer) => customer.cpf === cpf // Buscando pelo registro no array
+);
+    return response.json(customer.statement); // Retornando o resultado do da busca do find
+
+})
+ 
 app.listen(3333);
