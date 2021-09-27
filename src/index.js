@@ -8,6 +8,25 @@ app.use(express.json());
 
 const customers = []; // Criando uma array para armazenar as contas 
 
+//Middlewares
+function verifyIfExistsAccountCPF(request, response, next){
+    const {cpf} = request.headers; // Pegando o cpf via header
+
+    const customer = customers.find( 
+        (customer) => customer.cpf === cpf // Buscando pelo registro no array
+);
+
+    if(!customer){ // Se não encontrar o customer...
+        return response.status(400).json({error: "Customer not found!"});
+
+    }
+
+    request.customer = customer;
+
+    return next(); // Siga em frente
+}
+
+
 /* Criando uma rota para conta */
 app.post("/account", (request, response) => {
     const { cpf, name } = request.body;
@@ -34,19 +53,13 @@ app.post("/account", (request, response) => {
 
 });
 
+/* app.use(verifyIfExistsAccountCPF) -> Outra forma para usar o middleware
+Dessa forma, tudo que estiver abaixo desse app.use, passará pelo middleware
+*/
+
 /* Buscando informações sobre o extrato bancário do cliente */
-app.get("/statement", (request, response) => {
-    const {cpf} = request.headers // Pegando o cpf via header
-
-    const customer = customers.find( 
-        (customer) => customer.cpf === cpf // Buscando pelo registro no array
-);
-
-    if(!customer){ // Se não encontrar o customer...
-        return response.status(400).json({error: "Customer not found!"});
-
-    }
-
+app.get("/statement", verifyIfExistsAccountCPF, (request, response) => {
+    const { customer } = request; // Utilizando o customer do middleware
     return response.json(customer.statement); // Retornando o resultado do da busca do find
 
 })
