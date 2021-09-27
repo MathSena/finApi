@@ -135,4 +135,21 @@ app.get("/statement/date", verifyIfExistsAccountCPF, (request, response) => {
 
 })
 
+/* Atualizando a conta */
+app.put("/account", verifyIfExistsAccountCPF, (request, response)=>{
+    const { name } = request.body;
+    const { customer } = request;
+    customer.name = name;
+
+    return response.status(201).send();
+
+})
+
+/* Buscando informações da conta */
+app.get("/account", verifyIfExistsAccountCPF, (request, response) => {
+    const { customer } = request; // Utilizando o customer do middleware
+    return response.json(customer); // Retornando o resultado do da busca do find
+
+})
+
 app.listen(3333);
