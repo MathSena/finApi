@@ -123,7 +123,7 @@ app.post("/withdraw", verifyIfExistsAccountCPF, (request, response)=>{
 
 /* Buscando informações sobre o extrato bancário do cliente por data */
 app.get("/statement/date", verifyIfExistsAccountCPF, (request, response) => {
-    const { customer } = request; // Utilizando o customer do middleware
+    const { customer } = request; 
     const{ date } = request.query;
     const dateFormat = new Date(date + " 00:00"); // Formatando a data
 
@@ -131,7 +131,7 @@ app.get("/statement/date", verifyIfExistsAccountCPF, (request, response) => {
     statement.created_at.toDateString() === new Date(dateFormat).toDateString());
 
 
-    return response.json(statement); // Retornando o resultado do da busca do find
+    return response.json(statement); 
 
 })
 
@@ -147,9 +147,26 @@ app.put("/account", verifyIfExistsAccountCPF, (request, response)=>{
 
 /* Buscando informações da conta */
 app.get("/account", verifyIfExistsAccountCPF, (request, response) => {
-    const { customer } = request; // Utilizando o customer do middleware
-    return response.json(customer); // Retornando o resultado do da busca do find
+    const { customer } = request; 
+    return response.json(customer); 
 
 })
+
+/* Deletando uma conta */
+app.delete("/account", verifyIfExistsAccountCPF, (request, response)=>{
+    const { customer } = request;
+    customers.splice(customer, 1); // Buscando a conta para deleção
+    return response.status(200).json(customers);
+
+})
+
+/* Buscando o balance da conta */
+app.get("/accountBalance", verifyIfExistsAccountCPF, (request, response) => {
+    const { customer } = request; 
+    const balance = getBalance(customer.statement);
+    return response.json(balance); 
+
+})
+
 
 app.listen(3333);

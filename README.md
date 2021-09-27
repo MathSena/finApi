@@ -18,7 +18,8 @@ Marque esse projeto com uma estrela 🌟
 - [X] Deve ser possível buscar o extrato da conta do cliente por data
 - [X] Deve ser possível atualizar dados da conta do cliente
 - [X] Deve ser possível obter dados de uma conta do cliente
-- [] Deve ser possível deletar uma conta
+- [X] Deve ser possível deletar uma conta
+- [X] Deve ser possível puxar o balance da conta
 
 ## Regras de negócio
 
@@ -26,7 +27,7 @@ Marque esse projeto com uma estrela 🌟
 - [X] Não deve ser possível fazer depósito em uma conta não existente
 - [X] Não deve ser possível buscar extrato em uma conta não existente
 - [X] Não deve ser possível fazer saque em uma conta conta não existente
-- [] Não deve ser possível excluir uma conta não existente
+- [X] Não deve ser possível excluir uma conta não existente
 - [X] Não deve ser possível fazer saque em uma conta conta com saldo insuficiente
 
 
